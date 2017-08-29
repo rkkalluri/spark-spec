@@ -1175,7 +1175,21 @@ class DatasetSpec
   }
 
   describe("#toJSON") {
-    pending
+
+    it("Can create a DatSet<String> from DataSet<T>") {
+      val juniorParticipantsDS = Seq(
+        GameComment("Alice Jr", 12, Some("Good game")),
+        GameComment("Bob Jr", 17, None)
+      ).toDS
+
+      //returns a DataSet<String> as JSON
+      val actualDS =juniorParticipantsDS.toJSON
+
+      val expectedDS = Seq("""{"name"="Alice Jr","age"=12,"response"="Good game"}""",
+        """{"name"="Bob Jr"","age"=17}""").toDF("value")
+
+      assertSmallDatasetEquality(actualDS, expectedDS)
+    }
   }
 
   describe("#toLocalIterator") {
